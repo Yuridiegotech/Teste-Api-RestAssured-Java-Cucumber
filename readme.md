@@ -1,120 +1,43 @@
-# Prova técnica API
+# DesafioAPI-Backend
+Desafio de API BACK-END usando rest-Assured
 
-Este é o projeto de API que deve ser automatizado para o desafio.
+Para que execute os testes, deve estar instalado o JDK 8 , e o maven.
 
-##  Requisitos
- * Java 8+ JDK deve estar instalado
- * Maven deve estar instalado e configurado no path da aplicação
- 
-## Como executar a aplicação 
+Ao abrir o projeto na IDE, deve estar devidamente vinculado no projeto o JDK e o Maven.
 
-Na raiz do projeto, através de seu Prompt de Commando/Terminal/Console execute o comando 
+Abra o terminal e vá para Raiz do projeto.
 
-```bash
-mvn clean spring-boot:run
-```
+Execute primeiramente o comando : **mvn clean spring-boot:run**
 
-A aplicação estará disponível através da URL [http://localhost:8080](http://localhost:8080)
+este comando iniciará o servidor da API.
 
-Você pode trocar a porta da aplicação, caso a _8080_ já estiver em uso, adicionando a propriedade JVM `server.port`.
+Após isso, execute em um segundo terminal, o comando: **MVN Test.**
 
-Exemplo:
+Esse comando irá executar os testes.
 
-```bash
-mvn clean spring-boot:run -Dserver.port=8888
-```
+Via terminal será indicado os resultados
 
-## Documentacão técnica da aplicação
+Consultar CPF
+passedConsultar CPF.Consulta CPF Restrito
+passedConsultar CPF.Consulta CPF Sem Restrição
+Simulações de crédito
+passedSimulações de crédito.(POS)Consulta Simulacoes Existentes
+passedSimulações de crédito.(POS)Consulta Simulacao por CPF
+passedSimulações de crédito.(NEG)Consulta Simulacao por CPF
+passedSimulações de crédito.(POS)Altera uma Simulação de Crédito
+passedSimulações de crédito.(NEG)Altera uma Simulação de Crédito
+failedSimulações de crédito.(POS) Validar deleção de uma simulação
+failedSimulações de crédito.(NEG) Validar deleção de uma simulação
+passedSimulações de crédito.Criar uma simulação com dados Válidos
+failedSimulações de crédito.Criar uma simulação com cpf ja existente
+failedSimulações de crédito.Criar uma simulação com Valor menor condição
+passedSimulações de crédito.Criar uma simulação com Valor maior condição
+passedSimulações de crédito.Criar uma simulação com Parcela menor condição
+failedSimulações de crédito.Criar uma simulação com Parcela maior condição
 
-A documentação técnica da API está disponível através do OpenAPI/Swagger em [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+De acordo com o plano de teste Disponivel no link:
+https://docs.google.com/document/d/1tDQck9WezxBEOp7BnyuiRV6xHTuZeJb7daGWl0cw6KI/edit?usp=sharing
 
-## Regras
-
-### Restrições
-
-`GET <host>/api/v1/restricoes/{cpf}`
-
-O endpoint de Restrições tem a finalidade de consultar o CPF informando, retornando se ele possui ou não uma restrição. 
-
-* Se não possui restrição do HTTP Status 204 é retornado
-* Se possui restrição o HTTP Status 200 é retornado com a mensagem "O CPF 99999999999 possui restrição"
-
-#### CPFs com restrição
-
-| CPF |
-| ----|
-| 97093236014 |
-| 60094146012 |
-| 84809766080 |
-| 62648716050 |
-| 26276298085 |
-| 01317496094 |
-| 55856777050 |
-| 19626829001 |
-| 24094592008 |
-| 58063164083 |
-
-### Simulações
-
-A simulação é um cadastro que ficará registrado informações importantes sobre o crédito como valor, parcelas, 
-dados de contato, etc...
-
-### Criar uma simulação
-
-`POST <host>/api/v1/simulacoes`
-
-Este endpoint é responsável por inserir uma nova simulação.
-
-Existem os seguintes atributos a serem informados, com suas respectivas regras:
-
-| Atributo | Obrigatório? | Regra |
-|----------|--------------|-------|
-| cpf | sim | texto informando o CPF não no formato 999.999.999-99 |
-| nome | sim | texto informando o nome da pessoa |
-| email | sim | texto informado um e-mail válido |
-| valor | sim | valor da simulação que deve ser igual ou maior que R$ 1.000 e menor ou igual que R$ 40.000 |
-| parcela | sim | número de parcelas para pagamento que deve ser igual ou maior que 2 e menor ou igual a 48 |
-| seguro | sim | booleano `true` se com seguro e  `false` se sem seguro |
-
-* Uma simulação cadastrada com sucesso retorna o HTTP Status 201 e os dados inseridos como retorno
-* Uma simulação com problema em alguma regra retorna o HTTP Status 400 com a lista de erros
-* Uma simulação para um mesmo CPF retorna um HTTP Status 409 com a mensagem "CPF já existente"
-
-### Alterar uma simulação
-
-`PUT <host>/api/v1/simulacoes/{cpf}`
-
-Altera uma simulação já existente, onde o CPF deve ser informado para que a alteração possa ser efetuada.
-
-* A alteração pode ser feita em qualquer atributo da simulação
-* As mesmas regras se mantém
-* Se o CPF não possuir uma simulação o HTTP Status 404 é retornado com a mensagem "CPF não encontrado"
-
-### Consultar todas a simulações cadastradas
-
-`GET <host>/api/v1/simulacoes`
-
-Lista as simulações cadastradas.
-
-* Retorna a lista de simulações cadastradas e existir uma ou mais
-* Retorna HTTP Status 204 se não existir simulações cadastradas
-
-
-### Consultar uma simulação pelo CPF
-
-`GET <host>/api/v1/simulacoes/{cpf}`
-
-Retorna a simulação previamente cadastrada pelo CPF.
-
-* Retorna a simulação cadastrada
-* Se o CPF não possuir uma simulação o HTTP Status 404 é retornado
-
-### Remover uma simulação
-
-`DELETE <host>/api/v1/simulacoes/{id}`
-
-Remove uma simulação previamente cadastrada pelo seu ID.
-
-* Retorna o HTTP Status 204 se simulação for removida com sucesso
-* Retorna o HTTP Status 404 com a mensagem "Simulação não encontrada" se não existir a simulação pelo ID informado
+Além disso, na pasta raiz do projeto, será criado um arquivo HTML Chamado cucumber-html-report.html
+Nele é disposto um relatório, mais  detalhado sobre cada teste 
 
